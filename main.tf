@@ -6,9 +6,11 @@ provider "azurerm" {
   }
 }
 
+/*
 data "external" "thisAccount" {
   program = ["az","ad","signed-in-user","show","--query","{displayName: displayName,objectId: objectId,objectType: objectType}"]
 }
+*/
 
 resource "azurerm_resource_group" "example_rg" {
   name     = "example-resources"
@@ -20,16 +22,17 @@ resource "azurerm_key_vault" "example" {
   location                    = azurerm_resource_group.example_rg.location
   resource_group_name         = azurerm_resource_group.example_rg.name
   enabled_for_disk_encryption = true
-  tenant_id                   = "ca150d82-da58-4cc1-9cc1-26fa10dc937d"
+  tenant_id                   = "*****************************"
   soft_delete_retention_days  = 7
   purge_protection_enabled    = false
   
   sku_name = "standard"
 
   access_policy {
-    tenant_id = "ca150d82-da58-4cc1-9cc1-26fa10dc937d"
-    object_id = "${data.external.thisAccount.result.objectId}"
-
+    tenant_id = "**************************************"
+    #object_id = "${data.external.thisAccount.result.objectId}"
+    object_id = "************************************"
+    
     key_permissions = [
       "Get",
       "Create",
